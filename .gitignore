@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+models/
+ket_qua/
+!examples/ket_qua/
+*.part
