@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Tải 3 file model tô màu (Zhang et al., 2016 - BSD-2) về thư mục models/.
+"""Tải 3 file model tô màu (Zhang et al., 2016 - BSD-2-Clause) về thư mục models/.
+
+Ưu tiên nguồn chính thức; mirror bên thứ ba chỉ dùng khi nguồn chính thức lỗi.
+Mọi file đều được kiểm tra SHA-256 nên mirror không thể tráo file khác.
 
 Dùng:  python download_models.py            # tải vào ./models
        python download_models.py --dir D:/models
@@ -26,8 +29,12 @@ FILES = {
     "colorization_release_v2.caffemodel": {
         "sha256": "f5af1e602646328c792e1094f9876fe9cd4c09ac46fa886e5708a1abc89137b1",
         "urls": [
-            "https://huggingface.co/spaces/BilalSardar/Black-N-White-To-Color/resolve/main/colorization_release_v2.caffemodel",
+            # 1) Nguồn chính thức (Berkeley, theo fetch_release_models.sh của richzhang/colorization).
+            #    Lưu ý: kiểm tra ngày 30/10/2026 link này trả 404/500, nhưng vẫn được thử trước.
+            "https://people.eecs.berkeley.edu/~rich.zhang/projects/2016_colorization/files/demo_v2/colorization_release_v2.caffemodel",
             "http://eecs.berkeley.edu/~rich.zhang/projects/2016_colorization/files/demo_v2/colorization_release_v2.caffemodel",
+            # 2) Mirror bên thứ ba (dự phòng, KHÔNG chính thức) — luôn kiểm tra SHA-256 bên dưới.
+            "https://huggingface.co/spaces/BilalSardar/Black-N-White-To-Color/resolve/main/colorization_release_v2.caffemodel",
         ],
     },
 }

@@ -1,4 +1,4 @@
-"""tomau - tô màu ảnh đen trắng cũ, chạy offline."""
+"""tomau - tô màu ảnh đen trắng cũ, chạy offline sau khi tải model."""
 from .core import Colorizer, ModelMissingError
 from .compare import make_comparison
 

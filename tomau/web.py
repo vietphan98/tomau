@@ -24,7 +24,7 @@ PAGE = """<!doctype html>
  a.dl{color:#e8a33d;margin-right:18px}
 </style></head><body><div class="box">
 <h1>🎨 tomau</h1>
-<p class="sub">Tô màu ảnh đen trắng cũ trong vài giây — chạy hoàn toàn trên máy bạn, không gửi ảnh đi đâu.</p>
+<p class="sub">Tô màu ảnh đen trắng cũ bằng AI trong vài giây — chạy trên máy bạn, không gửi ảnh đi đâu. Màu do AI đoán, có thể không đúng thực tế.</p>
 <form method="post" enctype="multipart/form-data">
  <input type="file" name="photo" accept="image/*" required>
  <label>Độ đậm màu: <input type="range" name="strength" min="0" max="2" step="0.1" value="{{ strength }}"

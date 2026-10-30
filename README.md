@@ -1,13 +1,15 @@
-# 🎨 tomau — Tô màu ảnh đen trắng cũ, offline & miễn phí
+# 🎨 tomau — Tô màu ảnh đen trắng cũ bằng AI, miễn phí, chạy trên máy bạn
 
 **tomau** biến ảnh đen trắng cũ (ảnh ông bà, ảnh gia đình, ảnh lịch sử) thành ảnh màu chỉ trong vài giây.
-Chạy hoàn toàn trên máy của bạn — không cần Internet sau khi tải model, không gửi ảnh lên server nào, không tốn phí, không giới hạn số ảnh.
+Chạy trên máy của bạn: **lần đầu cần Internet để tải model (~125 MB)**, sau đó chạy offline hoàn toàn — không gửi ảnh lên server nào, không tốn phí, không giới hạn số ảnh.
+
+> ⚠️ Màu là do AI **đoán**, có thể sai và **không chính xác về mặt lịch sử** (màu áo, màu tóc, màu đồ vật… có thể khác hoàn toàn thực tế). Hãy xem kết quả là bản minh hoạ tham khảo, không phải tư liệu.
 
 ![Trước / Sau](examples/ket_qua/migrant_mother_so_sanh.jpg)
 
 ## Tính năng
 
-- Tô màu tự động bằng mạng nơ-ron (OpenCV DNN, chạy bằng CPU, ~0,5–2 giây/ảnh).
+- Tô màu tự động bằng mạng nơ-ron (OpenCV DNN, chạy bằng CPU, thường vài giây/ảnh tuỳ máy và kích thước ảnh).
 - Dòng lệnh: tô **1 ảnh** hoặc **cả thư mục** một lần.
 - Giao diện web nhỏ: kéo ảnh vào, bấm "Tô màu", tải kết quả về.
 - Tự xuất **ảnh so sánh Trước | Sau** đặt cạnh nhau (nhãn tiếng Việt có dấu) — đăng mạng xã hội ngay.
@@ -25,9 +27,11 @@ python -m venv .venv
 # Windows: .venv\Scripts\activate    |   macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
 
-# Tải model (~125 MB, chỉ cần 1 lần, có kiểm tra checksum)
+# Tải model (~125 MB, cần Internet, chỉ 1 lần; có kiểm tra SHA-256)
 python download_models.py
 ```
+
+Script ưu tiên nguồn chính thức của tác giả (Berkeley). Hiện (30/10/2026) link chính thức của file `colorization_release_v2.caffemodel` đã hỏng (404/500), nên script sẽ tự dùng **mirror bên thứ ba** trên Hugging Face Space [BilalSardar/Black-N-White-To-Color](https://huggingface.co/spaces/BilalSardar/Black-N-White-To-Color) — đây không phải nguồn chính thức, nhưng file được đối chiếu SHA-256 (`f5af1e60…37b1`) trước khi dùng. Hai file nhỏ còn lại tải trực tiếp từ repo GitHub chính thức `richzhang/colorization`.
 
 Model được lưu vào thư mục `models/` (đổi chỗ khác bằng `python download_models.py --dir <thư mục>` và đặt biến môi trường `TOMAU_MODELS=<thư mục>`).
 
@@ -85,13 +89,20 @@ cv2.imwrite("so_sanh.jpg", make_comparison(to_gray_bgr(img), mau))
 | Ảnh gốc | Kết quả |
 |---|---|
 | [examples/dau_vao/migrant_mother.jpg](examples/dau_vao/migrant_mother.jpg) | [examples/ket_qua/migrant_mother_so_sanh.jpg](examples/ket_qua/migrant_mother_so_sanh.jpg) |
-| [examples/dau_vao/einstein.jpg](examples/dau_vao/einstein.jpg) | [examples/ket_qua/einstein_so_sanh.jpg](examples/ket_qua/einstein_so_sanh.jpg) |
+| [examples/dau_vao/lincoln_1863.jpg](examples/dau_vao/lincoln_1863.jpg) | [examples/ket_qua/lincoln_1863_so_sanh.jpg](examples/ket_qua/lincoln_1863_so_sanh.jpg) |
 
-![Einstein Trước / Sau](examples/ket_qua/einstein_so_sanh.jpg)
+![Lincoln Trước / Sau](examples/ket_qua/lincoln_1863_so_sanh.jpg)
 
-Nguồn ảnh mẫu (đều là **public domain**, lấy từ Wikimedia Commons):
-- *Migrant Mother* — Dorothea Lange, 1936 (Library of Congress): <https://commons.wikimedia.org/wiki/File:Lange-MigrantMother02.jpg>
-- *Albert Einstein* — Orren Jack Turner, 1947: <https://commons.wikimedia.org/wiki/File:Albert_Einstein_Head.jpg>
+(Màu trong các ảnh mẫu là AI đoán, không phải màu thật.)
+
+Nguồn ảnh mẫu (Wikimedia Commons, đã kiểm tra trang file ngày 30/10/2026; ảnh được thu nhỏ):
+
+| File | Tác giả | Nguồn | Giấy phép (theo Commons) |
+|---|---|---|---|
+| `migrant_mother.jpg` | Dorothea Lange (1895–1965), cho Farm Security Administration, 6/3/1936 | Library of Congress — <https://commons.wikimedia.org/wiki/File:Lange-MigrantMother02.jpg> | Public domain: `PD-USGov-FSA` (tác phẩm của chính phủ Mỹ) + `PD-old-auto` (tác giả mất 1965) |
+| `lincoln_1863.jpg` | Alexander Gardner (1821–1882), 8/11/1863 | Mead Art Museum — <https://commons.wikimedia.org/wiki/File:Abraham_Lincoln_O-77_matte_collodion_print.jpg> | Public domain: `PD-scan` / `PD-old-auto-1923` (tác giả mất 1882, public domain trên toàn thế giới) |
+
+> Ảnh Einstein 1947 (Orren Jack Turner) từng dùng trước đây đã bị **gỡ bỏ**: Commons ghi nó public domain tại Mỹ (không gia hạn bản quyền) nhưng có thẻ `Urheberrechtlich geschützt` (vẫn còn bản quyền ở Đức), tức không chắc chắn public domain toàn cầu.
 
 ## Demo (quay video 20–30 giây)
 
@@ -99,12 +110,12 @@ Mục tiêu: người xem thấy rõ ảnh **đen trắng → có màu** trong v
 
 1. **Chuẩn bị**: 2–3 ảnh đen trắng cũ thật (ảnh ông bà, ảnh gia đình xưa — chụp lại bằng điện thoại cũng được) để trong thư mục `album_cu/`. Mở sẵn `python app.py` trên trình duyệt, phóng to cửa sổ.
 2. **0–3s (hook)**: cầm tấm ảnh đen trắng thật trên tay đưa vào khung hình, chèn chữ câu hook.
-3. **3–12s**: trên web, chọn ảnh → bấm **Tô màu** → ảnh Trước | Sau hiện ra (quay cận màn hình, để thấy chỉ mất 1–2 giây).
+3. **3–12s**: trên web, chọn ảnh → bấm **Tô màu** → ảnh Trước | Sau hiện ra (quay cận màn hình, để thấy chỉ mất vài giây).
 4. **12–20s**: kéo thanh "Độ đậm màu" lên 1.4 và bấm lại để thấy màu rực hơn; hoặc mở terminal chạy `python -m tomau album_cu/` để tô cả album một lần.
-5. **20–30s**: lướt nhanh qua các ảnh `*_so_sanh.jpg` trong thư mục kết quả (hiệu ứng trượt/zoom từ trái sang phải), kết bằng chữ: "Miễn phí, chạy offline — link GitHub ở bình luận".
+5. **20–30s**: lướt nhanh qua các ảnh `*_so_sanh.jpg` trong thư mục kết quả (hiệu ứng trượt/zoom từ trái sang phải), kết bằng chữ: "Miễn phí, chạy trên máy bạn — link GitHub ở bình luận". Nên thêm dòng nhỏ: "Màu do AI đoán, có thể không đúng thực tế".
 
 **Câu hook gợi ý cho Reel:**
-> "Ảnh đen trắng của ông bà mình, 2 giây sau đã có màu — miễn phí, không cần mạng!"
+> "Ảnh đen trắng của ông bà, vài giây là AI tô màu xong. Miễn phí, chạy ngay trên máy bạn."
 
 ## Cách hoạt động (tóm tắt)
 
@@ -117,8 +128,11 @@ Mục tiêu: người xem thấy rõ ảnh **đen trắng → có màu** trong v
 - Mã nguồn **tomau**: MIT © 2026 Việt Phan — xem [LICENSE](LICENSE).
 - **Model tô màu không thuộc về dự án này.** Model là của các tác giả bài báo
   *"Colorful Image Colorization"* — Richard Zhang, Phillip Isola, Alexei A. Efros (ECCV 2016),
-  phân phối theo giấy phép **BSD-2-Clause** của họ: <https://github.com/richzhang/colorization>.
-  Repo này không chứa file model; `download_models.py` tải chúng từ nguồn công khai khi bạn chạy.
-- Màu do AI dự đoán nên có thể không đúng với màu thật năm xưa — hãy xem đây là bản "phục dựng tham khảo".
+  bài báo: <https://arxiv.org/abs/1603.08511> (arXiv:1603.08511).
+  Repo gốc: <https://github.com/richzhang/colorization>. File [LICENSE](https://github.com/richzhang/colorization/blob/master/LICENSE)
+  của repo đó là giấy phép **BSD 2-Clause** ("Simplified BSD"), *Copyright (c) 2016, Richard Zhang, Phillip Isola, Alexei A. Efros*
+  (đã kiểm tra trực tiếp ngày 30/10/2026). Khi phân phối lại phải giữ thông báo bản quyền này.
+  Repo này không chứa file model; `download_models.py` tải chúng khi bạn chạy (nguồn chính thức trước, mirror bên thứ ba dự phòng — xem phần Cài đặt).
+- Màu do AI đoán nên có thể sai, không chính xác về lịch sử — chỉ là bản minh hoạ tham khảo.
 
 Tác giả: **Việt Phan**

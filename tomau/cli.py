@@ -21,7 +21,7 @@ def _collect(inp):
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="tomau",
-        description="Tô màu ảnh đen trắng cũ - chạy offline, miễn phí.",
+        description="Tô màu ảnh đen trắng cũ - chạy offline sau khi tải model (lần đầu cần Internet), miễn phí. Màu do AI đoán.",
     )
     ap.add_argument("input", help="Ảnh hoặc thư mục ảnh")
     ap.add_argument("-o", "--output", default="ket_qua", help="Thư mục lưu kết quả (mặc định: ket_qua)")
